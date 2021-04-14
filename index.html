@@ -1,0 +1,291 @@
+<!-- Hecho por Daniel Ramirez y su equipo desarrollador de la Universidad San Buenaventura, sede San Benito - 2020 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="icon" type="image/ico" href="./src/favicon.ico">
+<link rel="stylesheet" href="./node_lib/bootswatch/dist/flatly/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="./../../morris.js-0.5.1/morris.css"> -->
+<link rel="stylesheet" href="./node_lib/typeface-poppins/index.css">
+<link rel="stylesheet" href="./node_lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="./node_lib/notie/dist/notie.min.css">
+<link rel="stylesheet" href="./node_lib/animate.css/animate.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
+<link rel="stylesheet" href="./src/style.css">
+<title>Rocket</title>
+</head>
+<body>
+
+    <!-- <h1>Hello! <%= Math.sqrt(81) %> <i class="fa fa-heart"></i></h1> -->
+
+    <div class="position-absolute mr-2 mt-2" style="top:0; right: 0;">
+        <small class="mb-0">&copy; DATA3</small>
+        <i class="info-icon fa fa-info-circle" style="font-size:1em !important;" data-toggle="tooltip" data-placement="top" data-html="true" title="<i class='text-center fa fa-code-fork'></i><i class='ml-2 text-center fa fa-code'></i><br><b class='text-success'>Da</b><i>niel Ramírez</i><br><b class='text-success'>Da</b><i>niel Pérez</i><br><b class='text-success'>Ta</b><i>tiana Montoya</i><br><b class='text-success'>DATA3</b>"></i>
+    </div>
+
+    <div class="preloader animate__animated animate__flipOutY">
+        <div class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+        <div class="position-absolute animate__animated animate__pulse d-flex justify-content-center align-items-center" style="box-shadow: 0 0 20px 1px rgba(0,0,0,0.5) inset; border: 5px solid #121417; width: 150px; height: 150px; background: white; border-radius: 100%; animation-iteration-count: infinite;">
+            <img src="./src/favicon.ico" style="width: 80%; filter: drop-shadow(2px 4px 6px black);">
+        </div>
+        <div class="position-absolute" style="top: 10px; left: 0;">
+            <small class="m-3 mb-0 text-white"><i class="fa fa-superscript"></i> &copy; DATA3</small>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    <img src="./src/favicon.ico" style="width: 10%; filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.3));">
+                    <h3 class="ml-3 mb-0 text-primary">Rocket</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-100">
+            <div class="row">
+                <div class="col-md-4 d-flex justify-content-center align-items-center justify-content-center flex-column" id="graphicBox">
+                    <div class="w-100 position-relative">
+                        <div id="functionPlot"></div>
+                        <div class="w-100 d-flex justify-content-center flex-column position-absolute" style="left: 40px; bottom: 30px;">
+                            <div class="w-100 d-flex align-items-center flex-row">
+                                <hr class="m-1" style="width: 5%; border-width: 3px; border-color: #90ccff;">
+                                <p class="m-0">Derivada</p>
+                            </div>
+                            <div class="w-100 d-flex align-items-center flex-row">
+                                <hr class="m-1" style="width: 5%; border-width: 3px; border-color: #699e69;">
+                                <p class="m-0">Secantes</p>
+                            </div>
+                        </div>
+                        <button id="clearAnno" class="btn btn-danger position-absolute d-none" style="bottom: 20px; right: -12px;"><i class="fa fa-eraser"></i> Remover Datos</button>
+                    </div>
+                    <div class="w-100">
+                        <div id="plot3D"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                    <div class="jumbotron mb-0" style="padding: 1rem 2rem;">
+                        <h4 class="text-center m-0">Movimiento de Proyectil</h4>
+                        <hr class="w-100">
+                        <div class="w-100 d-flex flex-row">
+                            <div class="row">
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    <p class="m-0">\(v_{0}\):</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                            <input id="v0" type="number" class="form-control" placeholder="num" value="36">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">m/s</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    <p class="m-0">\(\theta\):</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input id="grades" type="number" class="form-control" placeholder="num" value="45">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">°</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-100 d-flex flex-row mt-2">
+                            <div class="row">
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    <p class="m-0">\(g\):</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input id="gravity" type="number" class="form-control" placeholder="num" value="9.8">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">m/s^2</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    <p class="m-0">\(y_{0}\):</p>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input id="y0" type="number" class="form-control" placeholder="num" value="0">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">m</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="w-100">
+                        <div class="d-flex justify-content-center flex-row">
+                            <p class="m-0 mr-2">\(x:\) <span id="xCoord">0</span></p>
+                            <p class="m-0">\(y:\) <span id="yCoord">0</span></p>
+                        </div>
+                        <div class="d-flex justify-content-center flex-row mt-2">
+                            <p class="m-0 mr-2"><b>\(t:\) </b><span id="pTime">0</span>s</p>
+                            <p class="m-0"><b>\(\theta:\) </b><span id="pAngle">0</span>°</p>
+                        </div>
+                        <hr class="w-100">
+                        <div class="d-flex justify-content-center flex-row">
+                            <p id="vx0" class="m-0 mr-2"></p>
+                            <p id="vy0" class="m-0"></p>
+                        </div>
+                        <div class="d-flex justify-content-center flex-row mt-4">
+                            <p id="hmax" class="m-0 mr-2"></p>
+                            <p id="thmax" class="m-0"></p>
+                        </div>
+                        <div class="d-flex justify-content-center flex-row mt-4">
+                            <p id="R" class="m-0 mr-2"></p>
+                            <p id="tr" class="m-0"></p>
+                        </div>
+                        <hr class="w-100">
+                        <div class="w-100">
+                            <div class="row">
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    <p class="m-0">\(R\):</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <form id="btnR">
+                                        <div class="input-group">
+                                            <input id="RInput" type="number" step="0.000001" class="form-control" placeholder="num" value="0">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">m</span>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-info" title="Actualizar distancia a recorrer deseada"><i class="fa fa-send"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-5">
+                                    <button class="btn btn-purple btn-block" onclick="detailsModal.show()"><i class="fa fa-info-circle"></i> Detalles</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                    <div class="jumbotron" style="padding: 1rem;">
+                        <div class="d-flex flex-column mt-2 align-items-center">
+                            <p id="plotEcuation" class="m-0">\(y= <%= 2+2 %>\)</p>
+                            <hr class="w-100">
+                            <p class="text-center m-0"><b>\(\frac{d}{dx}=\)</b> <span id="derivativeText"></span></p>
+                        </div>
+                        <hr class="w-100">
+                        <div class="row container-fluid mb-0">
+                            <div class="col-md-2 d-flex align-items-center justify-content-center pr-1">
+                                <h4 class="m-0"><i class="fa fa-map-marker"></i></h4>
+                            </div>
+                            <div class="col-md-5 pl-0 pr-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Lat</span>
+                                    </div>
+                                    <input id="lat" type="number" class="form-control" placeholder="Lat" value="6.238824">
+                                </div>
+                            </div>
+                            <div class="col-md-5 pl-1 pr-0">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Lng</span>
+                                    </div>
+                                    <input id="lng" type="number" class="form-control" placeholder="Lng" value="-75.5640839">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="mapPrev"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  
+  <!-- Details Modal -->
+  <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 70%; margin: 1.5rem auto;">
+      <div class="modal-content">
+        <div class="modal-header">
+         <div class="w-100 position-relative">
+            <h5 class="modal-title text-center">Movimiento de Proyectil</h5>
+            <button type="button" class="btn btn-danger position-absolute" style="top: -30px; right: -30px; border-radius: 100%; width: 40px; height: 40px; box-shadow: 0 0 10px 1px rgba(0,0,0,0.3);" onclick="detailsModal.hide()"><i class="fa fa-close"></i></button>
+         </div>
+        </div>
+        <div class="modal-body container">
+            <div class="row">
+                <div class="col-md-4 d-flex justify-content-center">
+                    <div id="functionPlot2"></div>
+                </div>
+                <div class="col-md-8 d-flex flex-column align-items-center" id="contTimeInfo" style="height: 430px; overflow: auto;">
+                    <div class="w-100 text-center" id="detailsCont"></div>
+                    <div class="w-50">
+                        <div class="row">
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                <p class="m-0">\(t\):</p>
+                            </div>
+                            <div class="col-md-10">
+                                <form id="btnT">
+                                    <div class="input-group">
+                                        <input id="tInput" type="number" step="0.000001" class="form-control" placeholder="tiempo">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">s</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-info" title="Mostrar datos en función del tiempo"><i class="fa fa-send"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 text-center" id="timeInfo"></div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="./node_lib/jquery/dist/jquery.min.js"></script>
+<script src="./node_lib/popper.js/dist/umd/popper.min.js"></script>
+<script src="./node_lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./node_lib/notie/dist/notie.min.js"></script>
+<script src="./node_lib/moment/min/moment-with-locales.min.js"></script>
+<script src="./node_lib/mathjs/lib/browser/math.js"></script>
+<script src="./node_lib/function-plot/dist/function-plot.js"></script>
+<script src="./node_lib/polyfill/index.js"></script>
+<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
+<script id="MathJax-script" async src="./node_lib/mathjax/es5/tex-mml-chtml.js"></script>
+<script type="text/javascript" src="./src/MathJax.js?config=TeX-AMS_HTML-full"></script>
+<script src="./src/plotly-latest.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+crossorigin=""></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [["$","$"],["\\(","\\)"]]
+      }
+    });
+</script>
+<script src="./src/scripts.js"></script>
+<!-- <script
+    src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=iniciarMap"
+    async
+></script> -->
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap" async></script> -->
+</body>
+</html>
